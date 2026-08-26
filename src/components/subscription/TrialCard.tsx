@@ -35,7 +35,7 @@ export default function TrialCard() {
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 8,
-    marginTop: 8,
+    marginTop: 15,
 
     height: 60,
 

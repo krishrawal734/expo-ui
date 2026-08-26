@@ -13,7 +13,7 @@ import PlanCard from "../components/subscription/PlanCard";
 import BillingItem from "../components/subscription/BillingItem";
 import { Colors } from "../constants/colors";
 
-export default function SubscriptionScreen() {
+export default function indexScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       {/* Status Bar */}
@@ -135,13 +135,16 @@ export default function SubscriptionScreen() {
 
 const styles = StyleSheet.create({
   safeArea: {
-    flex: 1,
+flex: 1,
     backgroundColor: Colors.background,
+
   },
 
   container: {
     flex: 1,
     backgroundColor: Colors.background,
+
+    
   },
 
   scrollContent: {
@@ -149,7 +152,7 @@ const styles = StyleSheet.create({
   },
 
   planSection: {
-    marginTop: 18,
+    marginTop: 15,
   },
 
   sectionTitle: {
