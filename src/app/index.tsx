@@ -1,98 +1,184 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {
+  View,
+  Text,
+  ScrollView,
+  SafeAreaView,
+  StyleSheet,
+} from "react-native";
+import { StatusBar } from "expo-status-bar";
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
+import Header from "../components/subscription/Header";
+import TrialCard from "../components/subscription/TrialCard";
+import PlanCard from "../components/subscription/PlanCard";
+import BillingItem from "../components/subscription/BillingItem";
+import { Colors } from "../constants/colors";
 
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
+export default function SubscriptionScreen() {
   return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+    <SafeAreaView style={styles.safeArea}>
+      {/* Status Bar */}
+      <StatusBar
+        style="dark"
+        backgroundColor={Colors.background}
+      />
 
-export default function HomeScreen() {
-  return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
+      <View style={styles.container}>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
+        {/* Header */}
+        <Header />
 
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollContent}
+        >
 
-        {Platform.OS === 'web' && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
+          {/* Free Trial */}
+          <TrialCard />
+
+          {/* Plans */}
+          <View style={styles.planSection}>
+            <Text style={styles.sectionTitle}>
+              Choose Plan
+            </Text>
+
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.planScroll}
+            >
+              <PlanCard
+                title="Monthly"
+                price="499"
+              />
+
+              <PlanCard
+                title="Yearly"
+                price="4999"
+              />
+
+              <PlanCard
+                title="Premium"
+                price="7999"
+              />
+
+              <PlanCard
+                title="Ultra Premium    "
+                price="9999"
+              />
+            </ScrollView>
+          </View>
+
+          {/* Billing History */}
+          <View style={styles.billingSection}>
+            <Text style={styles.sectionTitle}>
+              Billing History
+            </Text>
+
+            <View style={styles.billingCard}>
+
+              <BillingItem
+                date="Oct 12, 2023"
+                status="Paid"
+              />
+
+              <BillingItem
+                date="Sep 12, 2023"
+                status="Paid"
+              />
+
+              <BillingItem
+                date="Aug 12, 2023"
+                status="Failed"
+              />
+
+              <BillingItem
+                date="July 12, 2023"
+                status="Paid"
+              />
+
+              <BillingItem
+                date="June 12, 2023"
+                status="Failed"
+              />
+
+              <BillingItem
+                date="May 12, 2023"
+                status="Failed"
+              />
+
+              <BillingItem
+                date="April 12, 2023"
+                status="Paid"
+              />
+
+              <BillingItem
+                date="March 12, 2023"
+                status="Paid"
+              />
+
+              <BillingItem
+                date="February 12, 2023"
+                status="Failed"
+              />
+
+            </View>
+          </View>
+
+          {/* Bottom Space */}
+          <View style={styles.bottomSpace} />
+
+        </ScrollView>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
   safeArea: {
     flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
+    backgroundColor: Colors.background,
   },
-  heroSection: {
-    alignItems: 'center',
-    justifyContent: 'center',
+
+  container: {
     flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
+    backgroundColor: Colors.background,
   },
-  title: {
-    textAlign: 'center',
+
+  scrollContent: {
+    paddingBottom: 20,
   },
-  code: {
-    textTransform: 'uppercase',
+
+  planSection: {
+    marginTop: 18,
   },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+
+  sectionTitle: {
+    marginLeft: 8,
+    marginBottom: 10,
+    fontSize: 15,
+    fontWeight: "500",
+    color: Colors.text,
+  },
+
+  planScroll: {
+    paddingLeft: 8,
+    paddingRight: 8,
+  },
+
+  billingSection: {
+    marginTop: 20,
+    marginHorizontal: 8,
+  },
+
+  billingCard: {
+    backgroundColor: Colors.white,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    borderRadius: 8,
+    overflow: "hidden",
+  },
+
+  bottomSpace: {
+    height: 30,
   },
 });
