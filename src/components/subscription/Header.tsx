@@ -13,7 +13,7 @@ export default function Header() {
      
 
       <Text style={styles.title}>
-        Subscription
+        Subscription 
       </Text>
     </View>
   );
