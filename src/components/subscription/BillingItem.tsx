@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, Pressable, ActivityIndicator } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "../../constants/colors";
@@ -11,6 +11,15 @@ interface BillingItemProps {
 
 export default function BillingItem({ date, status }: BillingItemProps) {
   const isPaid = status === "Paid";
+  const [loading, setLoading] = useState(false);
+
+  function onDownload() {
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }
 
   return (
     <View style={styles.container}>
@@ -43,12 +52,18 @@ export default function BillingItem({ date, status }: BillingItemProps) {
           </Text>
         </View>
 
-        <Ionicons
-          name="download-outline"
-          size={17}
-          color="#374151"
-          style={styles.download}
-        />
+        <Pressable onPress={onDownload}>
+          {loading ? (
+            <ActivityIndicator size="small" color="#374151" style={styles.download} />
+          ) : (
+            <Ionicons
+              name="download-outline"
+              size={17}
+              color="#374151"
+              style={styles.download}
+            />
+          )}
+        </Pressable>
       </View>
     </View>
   );
