@@ -58,7 +58,7 @@ export default function BillingItem({ date, status }: BillingItemProps) {
           ) : (
             <Ionicons
               name="download-outline"
-              size={17}
+              size={18}
               color="#374151"
               style={styles.download}
             />
