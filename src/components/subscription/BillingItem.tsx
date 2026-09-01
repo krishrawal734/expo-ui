@@ -1,8 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Pressable, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  ActivityIndicator,
+} from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "../../constants/colors";
 
 interface BillingItemProps {
   date: string;
@@ -10,112 +15,109 @@ interface BillingItemProps {
 }
 
 export default function BillingItem({ date, status }: BillingItemProps) {
-  const isPaid = status === "Paid";
+
   const [loading, setLoading] = useState(false);
 
-  function onDownload() {
+  const download = () => {
     setLoading(true);
 
     setTimeout(() => {
       setLoading(false);
     }, 1000);
-  }
+  };
 
   return (
     <View style={styles.container}>
+
+      {/* Date and price */}
       <View>
         <Text style={styles.date}>{date}</Text>
 
-        <Text style={styles.details}>₹499 • Monthly</Text>
+        <Text style={styles.details}>
+          ₹499 • Monthly
+        </Text>
       </View>
 
-      <View style={styles.right}>
-        <View
-          style={[
-            styles.status,
-            {
-              backgroundColor: isPaid
-                ? Colors.paidBackground
-                : Colors.failedBackground,
-            },
-          ]}
-        >
-          <Text
-            style={[
-              styles.statusText,
-              {
-                color: isPaid ? Colors.paidText : Colors.failedText,
-              },
-            ]}
-          >
-            {status}
-          </Text>
-        </View>
 
-        <Pressable onPress={onDownload}>
+      {/* Status and download */}
+      <View style={styles.right}>
+
+        <Text style={styles.status}>
+          {status}
+        </Text>
+
+
+        <Pressable onPress={download}>
+
           {loading ? (
-            <ActivityIndicator size="small" color="#374151" style={styles.download} />
+            <ActivityIndicator size="small" color="black" />
           ) : (
             <Ionicons
               name="download-outline"
-              size={18}
-              color="#374151"
-              style={styles.download}
+              size={20}
+              color="black"
             />
           )}
+
         </Pressable>
+
       </View>
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+
   container: {
-    height: 62,
-
-    paddingHorizontal: 12,
-
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
+    padding: 15,
 
     flexDirection: "row",
-    alignItems: "center",
+
     justifyContent: "space-between",
+
+    alignItems: "center",
+
+    borderBottomWidth: 1,
+
+    borderBottomColor: "#ddd",
   },
 
   date: {
-    fontSize: 13,
-    fontWeight: "bold",
+    fontSize: 14,
 
-    color: Colors.text,
+    fontWeight: "bold",
   },
 
   details: {
-    marginTop: 4,
+    marginTop: 5,
 
-    fontSize: 11,
+    fontSize: 12,
 
-    color: Colors.gray,
+    color: "gray",
   },
-
+  
   right: {
     flexDirection: "row",
+
     alignItems: "center",
+
+    gap: 15,
   },
 
   status: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    backgroundColor: "#FFA066",
+
+    color: "BLACK",
+
+    paddingHorizontal: 10,
+
+    paddingVertical: 5,
 
     borderRadius: 10,
-  },
 
-  statusText: {
     fontSize: 10,
-    fontWeight: "bold",
   },
 
-  download: {
-    marginLeft: 14,
-  },
 });
+
