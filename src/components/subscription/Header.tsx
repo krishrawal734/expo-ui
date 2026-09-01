@@ -1,20 +1,11 @@
-import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-} from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
 import { Colors } from "../../constants/colors";
 
 export default function Header() {
   return (
     <View style={styles.container}>
-     
-
-      <Text style={styles.title}>
-        Subscription 
-      </Text>
+      <Text style={styles.title}>Subscription</Text>
     </View>
   );
 }
@@ -23,8 +14,7 @@ const styles = StyleSheet.create({
   container: {
     height: 80,
 
-    flexDirection: "row",
-    alignItems: "center",
+    justifyContent: "center",
 
     paddingHorizontal: 12,
 
@@ -32,12 +22,9 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    marginLeft: 10,
-    marginTop: 30,
+    fontSize: 20,
 
-    fontSize:  20,
     fontWeight: "bold",
-    fontFamily: "Poppins",
 
     color: Colors.darkOrange,
   },
