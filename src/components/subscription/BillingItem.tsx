@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  StyleSheet,
   Pressable,
   ActivityIndicator,
 } from "react-native";
-
 import { Ionicons } from "@expo/vector-icons";
 
 interface BillingItemProps {
@@ -14,8 +12,10 @@ interface BillingItemProps {
   status: "Paid" | "Failed";
 }
 
-export default function BillingItem({ date, status }: BillingItemProps) {
-
+export default function BillingItem({
+  date,
+  status,
+}: BillingItemProps) {
   const [loading, setLoading] = useState(false);
 
   const download = () => {
@@ -27,30 +27,39 @@ export default function BillingItem({ date, status }: BillingItemProps) {
   };
 
   return (
-    <View style={styles.container}>
-
+    <View className="flex-row items-center justify-between border-b border-gray-200 p-[15px]">
       {/* Date and price */}
       <View>
-        <Text style={styles.date}>{date}</Text>
+        <Text className="text-sm font-bold text-black">
+          {date}
+        </Text>
 
-        <Text style={styles.details}>
+        <Text className="mt-[5px] text-xs text-gray-500">
           ₹499 • Monthly
         </Text>
       </View>
 
-
       {/* Status and download */}
-      <View style={styles.right}>
-
-        <Text style={styles.status}>
+      <View className="flex-row items-center gap-[15px]">
+        <Text
+          className={`rounded-[10px] px-[10px] py-[5px] text-[10px] ${
+            status === "Paid"
+              ? "bg-green-100 text-green-700"
+              : "bg-red-100 text-red-700"
+          }`}
+        >
           {status}
         </Text>
 
-
-        <Pressable onPress={download}>
-
+        <Pressable
+          onPress={download}
+          className="items-center justify-center"
+        >
           {loading ? (
-            <ActivityIndicator size="small" color="black" />
+            <ActivityIndicator
+              size="small"
+              color="black"
+            />
           ) : (
             <Ionicons
               name="download-outline"
@@ -58,66 +67,9 @@ export default function BillingItem({ date, status }: BillingItemProps) {
               color="black"
             />
           )}
-
         </Pressable>
-
       </View>
-
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-
-  container: {
-    padding: 15,
-
-    flexDirection: "row",
-
-    justifyContent: "space-between",
-
-    alignItems: "center",
-
-    borderBottomWidth: 1,
-
-    borderBottomColor: "#ddd",
-  },
-
-  date: {
-    fontSize: 14,
-
-    fontWeight: "bold",
-  },
-
-  details: {
-    marginTop: 5,
-
-    fontSize: 12,
-
-    color: "gray",
-  },
-  
-  right: {
-    flexDirection: "row",
-
-    alignItems: "center",
-
-    gap: 15,
-  },
-
-  status: {
-    backgroundColor: "#FFA066",
-
-    color: "BLACK",
-
-    paddingHorizontal: 10,
-
-    paddingVertical: 5,
-
-    borderRadius: 10,
-
-    fontSize: 10,
-  },
-
-});
 

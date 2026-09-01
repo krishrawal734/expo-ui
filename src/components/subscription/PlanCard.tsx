@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, Pressable, StyleSheet } from "react-native";
+
+import {
+  View,
+  Text,
+  Pressable,
+} from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "../../constants/colors";
 
 const FEATURES = [
   "Unlimited Trips",
@@ -25,119 +29,51 @@ export default function PlanCard({
       onPressIn={() => setActive(true)}
       onPressOut={() => setActive(false)}
     >
-      <View style={[styles.card, active && styles.activeCard]}>
+      <View
+        className={`mr-[9px] h-[254px] w-[217px] rounded-[9px] border bg-white p-[14px] shadow-md ${
+          active
+            ? "border-orange-500"
+            : "border-gray-200"
+        }`}
+      >
         {/* Plan name */}
-        <Text style={styles.title}>{title}</Text>
+        <Text className="text-[19px] font-semibold text-slate-900">
+          {title}
+        </Text>
 
         {/* Price */}
-        <Text style={styles.price}>₹{price}</Text>
+        <Text className="mt-[2px] text-[27px] font-bold text-orange-600">
+          ₹{price}
+        </Text>
 
         {/* Features */}
-        <View style={styles.features}>
+        <View className="mt-[13px] gap-2">
           {FEATURES.map((feature) => (
-            <View style={styles.feature} key={feature}>
+            <View
+              className="flex-row items-center"
+              key={feature}
+            >
               <Ionicons
                 name="checkmark-circle-outline"
                 size={13}
-                color={Colors.orange}
+                color="#F97316"
               />
 
-              <Text style={styles.featureText}>{feature}</Text>
+              <Text className="ml-[6px] text-xs text-gray-500">
+                {feature}
+              </Text>
             </View>
           ))}
         </View>
 
         {/* Choose button */}
-        <Pressable style={styles.button}>
-          <Text style={styles.buttonText}>Choose Plan</Text>
+        <Pressable className="mt-auto h-10 items-center justify-center rounded-lg border border-gray-200 bg-orange-50">
+          <Text className="text-[13px] text-slate-900">
+            Choose Plan
+          </Text>
         </Pressable>
       </View>
     </Pressable>
   );
 }
 
-const styles = StyleSheet.create({
-  card: {
-    width: 217,
-    height: 254,
-
-    marginRight: 9,
-
-    padding: 14,
-
-    borderWidth: 1,
-    borderColor: Colors.border,
-
-    borderRadius: 9,
-
-    backgroundColor: Colors.white,
-
-    elevation: 4,
-  },
-
-  activeCard: {
-    borderColor: Colors.orange,
-  },
-
-  title: {
-    fontSize: 19,
-
-    fontWeight: "600",
-
-    color: Colors.text,
-  },
-
-  price: {
-    marginTop: 2,
-
-    fontSize: 27,
-
-    fontWeight: "700",
-
-    color: Colors.darkOrange,
-  },
-
-  features: {
-    marginTop: 13,
-
-    gap: 8,
-  },
-
-  feature: {
-    flexDirection: "row",
-
-    alignItems: "center",
-  },
-
-  featureText: {
-    marginLeft: 6,
-
-    fontSize: 12,
-
-    color: Colors.gray,
-  },
-
-  button: {
-    height: 40,
-
-    marginTop: "auto",
-
-    borderWidth: 1,
-
-    borderColor: Colors.border,
-
-    borderRadius: 8,
-
-    backgroundColor: Colors.button,
-
-    justifyContent: "center",
-
-    alignItems: "center",
-  },
-
-  buttonText: {
-    fontSize: 13,
-
-    color: Colors.text,
-  },
-});

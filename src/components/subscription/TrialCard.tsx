@@ -1,56 +1,30 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
 
 import { Ionicons } from "@expo/vector-icons";
 
 export default function TrialCard() {
   return (
-    <View style={styles.container}>
+    <View className="mx-2 mt-[15px] h-[60px] flex-row items-center justify-between rounded-[6px] bg-orange-300 px-3 shadow-sm">
+      
       {/* Text */}
       <View>
-        <Text style={styles.title}>Free Trial</Text>
+        <Text className="text-[15px] font-medium text-[#542400]">
+          Free Trial
+        </Text>
 
-        <Text style={styles.subtitle}>12 days left</Text>
+        <Text className="mt-[3px] text-xs text-amber-900">
+          12 days left
+        </Text>
       </View>
 
       {/* Icon */}
-      <Ionicons name="stopwatch" size={19} color="brown" />
+      <Ionicons
+        name="stopwatch"
+        size={19}
+        color="brown"
+      />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    height: 60,
 
-    marginTop: 15,
-    marginHorizontal: 8,
-
-    paddingHorizontal: 12,
-
-    backgroundColor: "#FFA066",
-
-    borderRadius: 6,
-
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-
-    elevation: 2,
-  },
-
-  title: {
-    fontSize: 15,
-
-    fontWeight: "500",
-
-    color: "#542400",
-  },
-
-  subtitle: {
-    marginTop: 3,
-
-    fontSize: 12,
-
-    color: "brown",
-  },
-});

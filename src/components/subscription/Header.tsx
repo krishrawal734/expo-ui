@@ -1,32 +1,12 @@
-import { View, Text, StyleSheet } from "react-native";
-
-import { Colors } from "../../constants/colors";
+import { View, Text } from "react-native";
 
 export default function Header() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Subscription</Text>
+    <View className="h-20 justify-center bg-white px-3">
+      <Text className="mt-2.5 text-xl font-bold text-orange-600">
+        Subscription
+      </Text>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    height: 80,
-
-    justifyContent: "center",
-
-    paddingHorizontal: 12,
-
-    backgroundColor: Colors.white,
-  },
-
-  title: {
-    fontSize: 20,
-
-    fontWeight: "bold",
-    marginTop: 10,
-
-    color: Colors.darkOrange,
-  },
-});
