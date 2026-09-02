@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  Pressable,
-  ActivityIndicator,
-} from "react-native";
+import { View, Text, Pressable, ActivityIndicator } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 interface BillingItemProps {
@@ -12,10 +7,7 @@ interface BillingItemProps {
   status: "Paid" | "Failed";
 }
 
-export default function BillingItem({
-  date,
-  status,
-}: BillingItemProps) {
+export default function BillingItem({ date, status }: BillingItemProps) {
   const [loading, setLoading] = useState(false);
 
   const download = () => {
@@ -30,13 +22,9 @@ export default function BillingItem({
     <View className="flex-row items-center justify-between border-b border-gray-200 p-[15px]">
       {/* Date and price */}
       <View>
-        <Text className="text-sm font-bold text-black">
-          {date}
-        </Text>
+        <Text className="text-sm font-bold text-black">{date}</Text>
 
-        <Text className="mt-[5px] text-xs text-gray-500">
-          ₹499 • Monthly
-        </Text>
+        <Text className="mt-[5px] text-xs text-gray-500">₹499 • Monthly</Text>
       </View>
 
       {/* Status and download */}
@@ -51,25 +39,14 @@ export default function BillingItem({
           {status}
         </Text>
 
-        <Pressable
-          onPress={download}
-          className="items-center justify-center"
-        >
+        <Pressable onPress={download} className="items-center justify-center">
           {loading ? (
-            <ActivityIndicator
-              size="small"
-              color="black"
-            />
+            <ActivityIndicator size="small" color="black" />
           ) : (
-            <Ionicons
-              name="download-outline"
-              size={20}
-              color="black"
-            />
+            <Ionicons name="download-outline" size={20} color="black" />
           )}
         </Pressable>
       </View>
     </View>
   );
 }
-
