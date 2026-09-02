@@ -27,7 +27,7 @@ export default function IndexScreen() {
 
           {/* Choose Plan */}
           <View className="mt-5 mx-2">
-            <Text className="mb-2.5 text-[15px] font-medium text-slate-900">
+            <Text className="mb-2.5 text-ellipsis text-[15px] font-medium text-slate-900">
               Choose Plan
             </Text>
 
