@@ -57,7 +57,7 @@ export default function PlanCard({
 
         {/* Button */}
         <Pressable className="mt-auto h-10 items-center justify-center rounded-lg bg-orange-50 border border-gray-200">
-          <Text className="text-slate-900">
+          <Text className="text-slate-900 font-display">
             Choose Plan
           </Text>
         </Pressable>

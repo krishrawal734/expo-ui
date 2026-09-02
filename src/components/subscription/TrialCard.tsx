@@ -8,7 +8,7 @@ export default function TrialCard() {
       
       {/* Text */}
       <View>
-        <Text className="text-[15px] font-medium text-[#542400]">
+        <Text className="text-[20px] font-medium text-[#542400] font-body">
           Free Trial
         </Text>
 

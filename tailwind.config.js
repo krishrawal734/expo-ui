@@ -9,7 +9,14 @@ module.exports = {
   presets: [require("nativewind/preset")],
 
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        display: ["BetaniaPatmos-Regular", "sans-serif"],
+        body: ["CaacupeOne-Regular", "sans-serif"],
+        logo: ["FasterOne", "sans-serif"],
+        title: ["CarterOne", "sans-serif"],
+      },
+    },
   },
 
   plugins: [],
