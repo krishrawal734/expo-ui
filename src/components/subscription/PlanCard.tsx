@@ -1,14 +1,8 @@
 import React, { useState } from "react";
-
-import {
-  View,
-  Text,
-  Pressable,
-} from "react-native";
-
+import { View, Text, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-const FEATURES = [
+const features = [
   "Unlimited Trips",
   "Priority Support",
   "Advanced Analytics",
@@ -30,45 +24,40 @@ export default function PlanCard({
       onPressOut={() => setActive(false)}
     >
       <View
-        className={`mr-[9px] h-[254px] w-[217px] rounded-[9px] border bg-white p-[14px] shadow-md ${
-          active
-            ? "border-orange-500"
-            : "border-gray-200"
+        className={`w-[217px] h-[254px] p-4 mr-2 rounded-lg bg-white border ${
+          active ? "border-orange-500" : "border-gray-200"
         }`}
       >
         {/* Plan name */}
-        <Text className="text-[19px] font-semibold text-slate-900">
+        <Text className="text-lg font-bold text-slate-900">
           {title}
         </Text>
 
         {/* Price */}
-        <Text className="mt-[2px] text-[27px] font-bold text-orange-600">
+        <Text className="text-2xl font-bold text-orange-600">
           ₹{price}
         </Text>
 
         {/* Features */}
-        <View className="mt-[13px] gap-2">
-          {FEATURES.map((feature) => (
-            <View
-              className="flex-row items-center"
-              key={feature}
-            >
+        <View className="mt-4">
+          {features.map((feature) => (
+            <View key={feature} className="flex-row items-center mb-2">
               <Ionicons
                 name="checkmark-circle-outline"
-                size={13}
-                color="#F97316"
+                size={14}
+                color="orange"
               />
 
-              <Text className="ml-[6px] text-xs text-gray-500">
+              <Text className="ml-2 text-gray-500">
                 {feature}
               </Text>
             </View>
           ))}
         </View>
 
-        {/* Choose button */}
-        <Pressable className="mt-auto h-10 items-center justify-center rounded-lg border border-gray-200 bg-orange-50">
-          <Text className="text-[13px] text-slate-900">
+        {/* Button */}
+        <Pressable className="mt-auto h-10 items-center justify-center rounded-lg bg-orange-50 border border-gray-200">
+          <Text className="text-slate-900">
             Choose Plan
           </Text>
         </Pressable>
@@ -76,4 +65,3 @@ export default function PlanCard({
     </Pressable>
   );
 }
-
