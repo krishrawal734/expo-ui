@@ -21,7 +21,7 @@ export default function IndexScreen() {
     return null;
   }
 
-  return (
+  return ( 
     <SafeAreaView className="flex-1 bg-slate-50">
       <StatusBar style="dark" />
 
