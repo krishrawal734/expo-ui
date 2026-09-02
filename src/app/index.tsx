@@ -13,8 +13,8 @@ export default function IndexScreen() {
   const [fontsLoaded] = useFonts({
     "BetaniaPatmos-Regular": require("../../assets/fonts/BetaniaPatmos-Regular.ttf"),
     "CaacupeOne-Regular": require("../../assets/fonts/CaacupeOne-Regular.ttf"),
-    CarterOne: require("../../assets/fonts/CarterOne-Regular.ttf"),
-    FasterOne: require("../../assets/fonts/FasterOne-Regular.ttf"),
+    "CarterOne": require("../../assets/fonts/CarterOne-Regular.ttf"),
+    "FasterOne": require("../../assets/fonts/FasterOne-Regular.ttf"),
   });
 
   if (!fontsLoaded) {
