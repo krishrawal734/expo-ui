@@ -1,7 +1,7 @@
+import React from "react";
 import { Alert, Text, TouchableOpacity } from "react-native";
 import { Asset } from "expo-asset";
 import { Directory, File, Paths } from "expo-file-system";
-import * as Sharing from "expo-sharing";
 
 export default function PdfDownload() {
   const downloadPDF = async () => {
@@ -14,9 +14,10 @@ export default function PdfDownload() {
       await asset.downloadAsync();
 
       if (!asset.localUri) {
-        throw new Error("PDF  could not be loaded.");
+        throw new Error("PDF could not be loaded.");
       }
 
+      // Create PDF directory
       const pdfDirectory = new Directory(Paths.cache, "documents");
 
       if (!pdfDirectory.exists) {
@@ -24,25 +25,23 @@ export default function PdfDownload() {
       }
 
       // Destination file
-      const destination = new File(pdfDirectory, "KRISHRAWAL-CV.pdf");
+      const destination = new File(
+        pdfDirectory,
+        "KRISHRAWAL-CV.pdf"
+      );
+
+      // Source file
       const source = new File(asset.localUri);
+
+      // Copy PDF
       source.copy(destination);
 
       console.log("PDF location:", destination.uri);
 
-      // Open share/save dialog
-      if (await Sharing.isAvailableAsync()) {
-        await Sharing.shareAsync(destination.uri, {
-          mimeType: "application/pdf",
-          dialogTitle: "Save PDF",
-          UTI: "com.adobe.pdf",
-        });
-      } else {
-        Alert.alert(
-          "Success",
-          "PDF has been downloaded successfully."
-        );
-      }
+      Alert.alert(
+        "Success",
+        "PDF has been downloaded successfully."
+      );
     } catch (error) {
       console.error("PDF Error:", error);
 
