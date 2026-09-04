@@ -1,4 +1,3 @@
-
 import { Alert, Text, TouchableOpacity } from "react-native";
 import { Asset } from "expo-asset";
 import { Directory, File, Paths } from "expo-file-system";
