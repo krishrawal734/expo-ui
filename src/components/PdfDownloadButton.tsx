@@ -1,66 +1,86 @@
-import React from "react";
-import { Alert, Text, TouchableOpacity } from "react-native";
-import { Asset } from "expo-asset";
-import { Directory, File, Paths } from "expo-file-system";
+import React, { useRef, useState } from "react";
+import { Alert, Button, Text, View } from "react-native";
+import { File, Paths } from "expo-file-system";
 
-export default function PdfDownload() {
+export default function DownloadPDF() {
+  const [progress, setProgress] = useState(0);
+
+  // Store the download task
+  const task = useRef<any>(null);
+
+  // DOWNLOAD PDF
   const downloadPDF = async () => {
     try {
-      // Get the PDF from assets
-      const asset = Asset.fromModule(
-        require("../../assets/documents/KRISHRAWAL-CV.pdf")
-      );
+      const url =
+        "https://drive.google.com/uc?export=download&id=1v0FLQIPm7LUetaAerX6wiwf94WF1Gebm";
 
-      await asset.downloadAsync();
+      // Temporary location
+      const file = new File(Paths.cache, "my.pdf");
 
-      if (!asset.localUri) {
-        throw new Error("PDF could not be loaded.");
+      if (file.exists) {
+        file.delete();
       }
 
-      // Create PDF directory
-      const pdfDirectory = new Directory(Paths.cache, "documents");
+      // Create download task
+      task.current = File.createDownloadTask(
+        url,
+        file,
+        {
+          onProgress: ({ bytesWritten, totalBytes }) => {
+            if (totalBytes > 0) {
+              const percent =
+                (bytesWritten / totalBytes) * 100;
 
-      if (!pdfDirectory.exists) {
-        pdfDirectory.create();
+              setProgress(Math.round(percent));
+            }
+          },
+        }
+      );
+
+      // Start download
+      const result = await task.current.downloadAsync();
+
+      if (result) {
+        setProgress(100);
+
+        Alert.alert(
+          "Success",
+          "PDF downloaded successfully!"
+        );
+
+        console.log("Downloaded file:", result.uri);
       }
-
-      // Destination file
-      const destination = new File(
-        pdfDirectory,
-        "KRISHRAWAL-CV.pdf"
-      );
-
-      // Source file
-      const source = new File(asset.localUri);
-
-      // Copy PDF
-      source.copy(destination);
-
-      console.log("PDF location:", destination.uri);
-
-      Alert.alert(
-        "Success",
-        "PDF has been downloaded successfully."
-      );
     } catch (error) {
-      console.error("PDF Error:", error);
+      console.log("Download error:", error);
 
       Alert.alert(
         "Error",
-        "Unable to download PDF."
+        "PDF download failed"
       );
     }
   };
 
   return (
-    <TouchableOpacity
-      onPress={downloadPDF}
-      activeOpacity={0.8}
-      className="mx-4 mt-4 items-center rounded-xl bg-blue-600 px-6 py-4"
+    <View
+      style={{
+        flex: 1,
+        padding: 30,
+        paddingTop: 60,
+        gap: 15,
+      }}
     >
-      <Text className="text-base font-bold text-white">
-        Download PDF
+      <Button
+        title="Download PDF"
+        onPress={downloadPDF}
+      />
+
+      <Text
+        style={{
+          fontSize: 18,
+        }}
+      >
+        Progress: {progress}%
       </Text>
-    </TouchableOpacity>
+    </View>
   );
 }
