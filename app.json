@@ -7,11 +7,9 @@
     "icon": "./assets/images/icon.png",
     "scheme": "expoui",
     "userInterfaceStyle": "automatic",
-
     "ios": {
       "icon": "./assets/expo.icon"
     },
-
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
@@ -22,15 +20,19 @@
       "predictiveBackGestureEnabled": false,
       "package": "com.anonymous.expoui"
     },
-
     "web": {
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-
     "plugins": [
+      [
+        "expo-file-system",
+        {
+          "supportsOpeningDocumentsInPlace": true,
+          "enableFileSharing": true
+        }
+      ],
       "expo-router",
-
       [
         "expo-splash-screen",
         {
@@ -39,9 +41,7 @@
           "imageWidth": 76
         }
       ],
-
       "expo-status-bar",
-
       [
         "expo-font",
         {
@@ -52,9 +52,10 @@
             "./assets/fonts/FasterOne-Regular.ttf"
           ]
         }
-      ]
+      ],
+      "expo-asset",
+      "expo-sharing"
     ],
-
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true

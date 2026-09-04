@@ -1,9 +1,11 @@
 import { SafeAreaView, ScrollView, Text, View } from "react-native";
+
 import "../../global.css";
 
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
 
+import PdfDownloadButton from "../components/PdfDownloadButton";
 import BillingItem from "../components/subscription/BillingItem";
 import Header from "../components/subscription/Header";
 import PlanCard from "../components/subscription/PlanCard";
@@ -13,15 +15,15 @@ export default function IndexScreen() {
   const [fontsLoaded] = useFonts({
     "BetaniaPatmos-Regular": require("../../assets/fonts/BetaniaPatmos-Regular.ttf"),
     "CaacupeOne-Regular": require("../../assets/fonts/CaacupeOne-Regular.ttf"),
-    "CarterOne": require("../../assets/fonts/CarterOne-Regular.ttf"),
-    "FasterOne": require("../../assets/fonts/FasterOne-Regular.ttf"),
+    CarterOne: require("../../assets/fonts/CarterOne-Regular.ttf"),
+    FasterOne: require("../../assets/fonts/FasterOne-Regular.ttf"),
   });
 
   if (!fontsLoaded) {
     return null;
   }
 
-  return ( 
+  return (
     <SafeAreaView className="flex-1 bg-slate-50">
       <StatusBar style="dark" />
 
@@ -29,16 +31,23 @@ export default function IndexScreen() {
         {/* Header */}
         <Header />
 
-        {/* Main scroll */}
+        {/* Main Content */}
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 20 }}
+          contentContainerStyle={{
+            paddingBottom: 20,
+          }}
         >
           {/* Free Trial */}
           <TrialCard />
 
+          <PdfDownloadButton
+            fileName="KRISHRAWAL-CV.pdf"
+            source={require("../../assets/documents/KRISHRAWAL-CV.pdf")}
+          />
+
           {/* Choose Plan */}
-          <View className="mt-5 mx-2">
+          <View className="mx-2 mt-5">
             <Text className="mb-2.5 text-[30px] font-medium text-slate-900 font-logo">
               Choose Plan
             </Text>
@@ -55,8 +64,8 @@ export default function IndexScreen() {
           </View>
 
           {/* Billing History */}
-          <View className="mt-5 mx-2">
-            <Text className="mb-2.5 text-[30px] font-body text-slate-900">
+          <View className="mx-2 mt-5">
+            <Text className="mb-2.5 text-[30px] text-slate-900 font-body">
               Billing History
             </Text>
 
