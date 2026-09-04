@@ -14,12 +14,7 @@ export default function DownloadPDF() {
       const url =
         "https://drive.google.com/uc?export=download&id=1v0FLQIPm7LUetaAerX6wiwf94WF1Gebm";
 
-      // Temporary location
-      const file = new File(Paths.cache, "my.pdf");
-
-      if (file.exists) {
-        file.delete();
-      }
+   
 
       // Create download task
       task.current = File.createDownloadTask(
