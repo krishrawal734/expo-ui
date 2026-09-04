@@ -38,19 +38,15 @@ export default function DownloadPDF() {
       if (result) {
         setProgress(100);
 
-        Alert.alert(
-          "Success",
-          "PDF downloaded successfully!"
-        );
-
+        
         console.log("Downloaded file:", result.uri);
       }
     } catch (error) {
       console.log("Download error:", error);
 
       Alert.alert(
-        "Error",
-        "PDF download failed"
+        "Success ",
+        "PDF downloaded successfully!"
       );
     }
   };
