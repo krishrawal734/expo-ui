@@ -62,12 +62,14 @@ export default function DownloadPDF({ fileName, source }: Props) {
       style={{
         padding: 30,
         marginTop: 50,
+
       }}
     >
       <Button
         title={isDownloading ? "Downloading..." : "Download PDF"}
         onPress={downloadPDF}
         disabled={isDownloading}
+        
       />
 
       {isDownloading && (
