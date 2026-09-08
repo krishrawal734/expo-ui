@@ -17,6 +17,7 @@ export default function DownloadPDF({ fileName, source }: Props) {
          setIsDownloading(true);
       setProgress(0);
 
+      // 1. Get PDF 
       const asset = Asset.fromModule(source);
 
 
@@ -26,18 +27,19 @@ export default function DownloadPDF({ fileName, source }: Props) {
         throw new Error("PDF file not found");
       }
 
-
+      // 2. Create File 
       const pdfFile = new File(asset.localUri);
 
     
       const folder = await Directory.pickDirectoryAsync();
 
+      // 4. Create PDF 
       const newFile = folder.createFile(
         fileName,
         "application/pdf"
       );
 
-
+      // 5. Copy data
       const pdfBytes = await pdfFile.bytes();
       newFile.write(pdfBytes);
 
@@ -62,14 +64,12 @@ export default function DownloadPDF({ fileName, source }: Props) {
       style={{
         padding: 30,
         marginTop: 50,
-
       }}
     >
       <Button
         title={isDownloading ? "Downloading..." : "Download PDF"}
         onPress={downloadPDF}
         disabled={isDownloading}
-        
       />
 
       {isDownloading && (
