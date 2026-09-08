@@ -1,70 +1,79 @@
-import React, { useRef, useState } from "react";
+import { Asset } from "expo-asset";
+import { Directory, File } from "expo-file-system";
+import { useState } from "react";
 import { Alert, Button, Text, View } from "react-native";
-import { File, Paths } from "expo-file-system";
 
-export default function DownloadPDF() {
+type Props = {
+  fileName: string;
+  source: number;
+};
+
+export default function DownloadPDF({ fileName, source }: Props) {
+  const [isDownloading, setIsDownloading] = useState(false);
   const [progress, setProgress] = useState(0);
 
-  // Store the download task
-  const task = useRef<any>(null);
-
-  // DOWNLOAD PDF
   const downloadPDF = async () => {
     try {
-      const url =
-        "https://drive.google.com/uc?export=download&id=1v0FLQIPm7LUetaAerX6wiwf94WF1Gebm";
+         setIsDownloading(true);
+      setProgress(0);
 
-   
+      // 1. Get PDF 
+      const asset = Asset.fromModule(source);
 
-      // Create download task
-      task.current = File.createDownloadTask(
-        url,
-        file,
-        {
-          onProgress: ({ bytesWritten, totalBytes }) => {
-            if (totalBytes > 0) {
-              const percent =
-                (bytesWritten / totalBytes) * 100;
 
-              setProgress(Math.round(percent));
-            }
-          },
-        }
+      await asset.downloadAsync();
+
+      if (!asset.localUri) {
+        throw new Error("PDF file not found");
+      }
+
+      // 2. Create File 
+      const pdfFile = new File(asset.localUri);
+
+    
+      const folder = await Directory.pickDirectoryAsync();
+
+      // 4. Create PDF 
+      const newFile = folder.createFile(
+        fileName,
+        "application/pdf"
       );
 
-      // Start download
-      const result = await task.current.downloadAsync();
-
-      if (result) {
-        setProgress(100);
-
-        
-        console.log("Downloaded file:", result.uri);
-      }
-    } catch (error) {
-      console.log("Download error:", error);
+      // 5. Copy data
+      const pdfBytes = await pdfFile.bytes();
+      newFile.write(pdfBytes);
 
       Alert.alert(
-        "Success ",
-        "PDF downloaded successfully!"
+        "Success",
+        `${fileName} downloaded successfully!`
       );
+    } catch (error) {
+      console.log(error);
+
+      Alert.alert(
+        "Error",
+        "Could not download PDF"
+      );
+    } finally {
+      setIsDownloading(false);
     }
   };
 
   return (
     <View
       style={{
-        flex: 1,
         padding: 30,
-        paddingTop: 60,
-        gap: 15,
+        marginTop: 50,
       }}
     >
       <Button
-        title="Download PDF"
+        title={isDownloading ? "Downloading..." : "Download PDF"}
         onPress={downloadPDF}
+        disabled={isDownloading}
       />
 
+      {isDownloading && (
+        
       <Text
         style={{
           fontSize: 18,
@@ -72,6 +81,8 @@ export default function DownloadPDF() {
       >
         Progress: {progress}%
       </Text>
+    
+      )}
     </View>
   );
 }
