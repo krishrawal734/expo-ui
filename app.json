@@ -54,11 +54,11 @@
         }
       ],
       "expo-asset",
-      "expo-sharing"
-    ],
-    "experiments": {
-      "typedRoutes": true,
-      "reactCompiler": true
-    }
+      "expo-sharing",
+      "@react-native-google-signin/google-signin",
+      "expo-web-browser",
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth"
+    ]
   }
 }
