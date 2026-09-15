@@ -1,8 +1,17 @@
+import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
-import { Redirect } from "expo-router";
+import { Redirect, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 
-import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+import { useState } from "react";
+import {
+  ActivityIndicator,
+  Alert,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import "../../global.css";
@@ -22,7 +31,8 @@ export default function IndexScreen() {
    * ----------------------------------------------------
    */
 
-  const { user, loading } = useAuth();
+  const { user, loading, logout } = useAuth();
+  const [loggingOut, setLoggingOut] = useState(false);
 
   /*
    * ----------------------------------------------------
@@ -98,6 +108,17 @@ export default function IndexScreen() {
       </SafeAreaView>
     );
   }
+
+  const handleLogout = async () => {
+    try {
+      setLoggingOut(true);
+      await logout();
+      router.replace("/(auth)/login");
+    } catch (error: any) {
+      Alert.alert("Logout failed", error?.message || "Unable to logout.");
+      setLoggingOut(false);
+    }
+  };
 
   /*
    * ----------------------------------------------------
@@ -180,6 +201,19 @@ export default function IndexScreen() {
               <BillingItem date="February 12, 2023" status="Failed" />
             </View>
           </View>
+
+          <TouchableOpacity
+            accessibilityLabel="Log out"
+            accessibilityRole="button"
+            className="mx-2 mt-6 h-12 flex-row items-center justify-center rounded-lg bg-red-600"
+            disabled={loggingOut}
+            onPress={handleLogout}
+          >
+            <Ionicons name="log-out-outline" size={20} color="#FFFFFF" />
+            <Text className="ml-2 text-base font-semibold text-white">
+              {loggingOut ? "Logging out..." : "Log out"}
+            </Text>
+          </TouchableOpacity>
         </ScrollView>
       </View>
     </SafeAreaView>

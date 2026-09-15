@@ -1,17 +1,10 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-
+import type { User } from "@react-native-firebase/auth";
 import {
-  User,
-  onAuthStateChanged,
-  signOut,
-} from "firebase/auth";
-
-import { auth } from "../config/firebase";
+    getAuth,
+    onAuthStateChanged,
+    signOut,
+} from "@react-native-firebase/auth";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface AuthContextType {
   user: User | null;
@@ -25,16 +18,12 @@ const AuthContext = createContext<AuthContextType>({
   logout: async () => {},
 });
 
-export function AuthProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(getAuth(), (currentUser) => {
       setUser(currentUser);
       setLoading(false);
     });
@@ -43,17 +32,11 @@ export function AuthProvider({
   }, []);
 
   const logout = async () => {
-    await signOut(auth);
+    await signOut(getAuth());
   };
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        loading,
-        logout,
-      }}
-    >
+    <AuthContext.Provider value={{ user, loading, logout }}>
       {children}
     </AuthContext.Provider>
   );

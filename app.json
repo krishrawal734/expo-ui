@@ -7,9 +7,11 @@
     "icon": "./assets/images/icon.png",
     "scheme": "expoui",
     "userInterfaceStyle": "automatic",
+
     "ios": {
       "icon": "./assets/expo.icon"
     },
+
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
@@ -18,12 +20,15 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.expoui"
+      "package": "com.anonymous.expoui",
+      "googleServicesFile": "./google-services.json"
     },
+
     "web": {
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
+
     "plugins": [
       [
         "expo-file-system",
@@ -32,7 +37,9 @@
           "enableFileSharing": true
         }
       ],
+
       "expo-router",
+
       [
         "expo-splash-screen",
         {
@@ -41,7 +48,9 @@
           "imageWidth": 76
         }
       ],
+
       "expo-status-bar",
+
       [
         "expo-font",
         {
@@ -53,12 +62,10 @@
           ]
         }
       ],
+
       "expo-asset",
       "expo-sharing",
-      "@react-native-google-signin/google-signin",
-      "expo-web-browser",
-      "@react-native-firebase/app",
-      "@react-native-firebase/auth"
+      "expo-web-browser"
     ]
   }
 }

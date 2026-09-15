@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import {
   Alert,
@@ -11,9 +11,10 @@ import {
 
 import { Link, router } from "expo-router";
 
-import { createUserWithEmailAndPassword } from "firebase/auth";
-
-import { auth } from "../../config/firebase";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+} from "@react-native-firebase/auth";
 
 export default function SignupScreen() {
   const [email, setEmail] = useState("");
@@ -41,11 +42,11 @@ export default function SignupScreen() {
     try {
       setLoading(true);
 
-      await createUserWithEmailAndPassword(auth, email.trim(), password);
+      await createUserWithEmailAndPassword(getAuth(), email.trim(), password);
 
       Alert.alert("Success", "Account created successfully.");
 
-      router.replace("/home");
+      router.replace("/");
     } catch (error: any) {
       Alert.alert("Signup failed", error.message || "Something went wrong.");
     } finally {

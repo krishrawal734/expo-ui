@@ -1,5 +1,3 @@
-// src/services/githubAuth.ts
-
 const GITHUB_CLIENT_ID = "Ov23li111tzL9JlMYC9P";
 
 const GITHUB_DEVICE_CODE_URL =
