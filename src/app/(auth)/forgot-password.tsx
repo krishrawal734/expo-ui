@@ -11,7 +11,7 @@ import {
 
 import { Link } from "expo-router";
 
-import { getAuth, sendPasswordResetEmail } from "@react-native-firebase/auth";
+import { sendPasswordReset } from "../../services/auth";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -26,7 +26,7 @@ export default function ForgotPassword() {
     try {
       setLoading(true);
 
-      await sendPasswordResetEmail(getAuth(), email.trim());
+      await sendPasswordReset(email.trim());
 
       Alert.alert("Success", "Password reset email has been sent.");
     } catch (error: any) {

@@ -1,13 +1,9 @@
 import { FontAwesome } from "@expo/vector-icons";
-import {
-    GithubAuthProvider,
-    getAuth,
-    signInWithCredential,
-} from "@react-native-firebase/auth";
 import { makeRedirectUri, useAuthRequest } from "expo-auth-session";
 import { router } from "expo-router";
 import * as WebBrowser from "expo-web-browser";
 import { Alert, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { signInWithGithubToken } from "../../services/auth";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -80,10 +76,7 @@ export default function GithubLogin({
         );
       }
 
-      await signInWithCredential(
-        getAuth(),
-        GithubAuthProvider.credential(tokenData.access_token),
-      );
+      await signInWithGithubToken(tokenData.access_token);
       router.replace("/");
     } catch (error: any) {
       Alert.alert(

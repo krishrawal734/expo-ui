@@ -1,7 +1,3 @@
-import {
-    getAuth,
-    signInWithEmailAndPassword,
-} from "@react-native-firebase/auth";
 import { Link, router } from "expo-router";
 import { useState } from "react";
 import {
@@ -12,6 +8,7 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
+import { signInWithEmail } from "../../services/auth";
 
 type EmailLoginProps = {
   disabled?: boolean;
@@ -35,7 +32,7 @@ export default function EmailLogin({
     try {
       setLoading(true);
       onLoadingChange?.(true);
-      await signInWithEmailAndPassword(getAuth(), email.trim(), password);
+      await signInWithEmail(email.trim(), password);
       router.replace("/");
     } catch (error: any) {
       Alert.alert("Login failed", error?.message || "Something went wrong.");

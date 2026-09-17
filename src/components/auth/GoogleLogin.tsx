@@ -1,13 +1,7 @@
 import { FontAwesome } from "@expo/vector-icons";
-import {
-    getAuth,
-    GoogleAuthProvider,
-    signInWithCredential,
-} from "@react-native-firebase/auth";
-import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { router } from "expo-router";
 import { Alert, StyleSheet, Text, TouchableOpacity } from "react-native";
-import "../../services/googleAuth";
+import { signInWithGoogle } from "../../services/auth";
 
 type GoogleLoginProps = {
   disabled?: boolean;
@@ -21,16 +15,7 @@ export default function GoogleLogin({
   const handleGoogleLogin = async () => {
     try {
       onLoadingChange?.(true);
-      await GoogleSignin.hasPlayServices({
-        showPlayServicesUpdateDialog: true,
-      });
-      const response = await GoogleSignin.signIn();
-      const idToken = response.data?.idToken;
-      if (!idToken) throw new Error("Google ID token was not received.");
-      await signInWithCredential(
-        getAuth(),
-        GoogleAuthProvider.credential(idToken),
-      );
+      await signInWithGoogle();
       router.replace("/");
     } catch (error: any) {
       if (error?.code !== "SIGN_IN_CANCELLED") {

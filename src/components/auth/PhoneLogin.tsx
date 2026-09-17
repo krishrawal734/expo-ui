@@ -1,4 +1,3 @@
-import { getAuth, signInWithPhoneNumber } from "@react-native-firebase/auth";
 import { router } from "expo-router";
 import { useState } from "react";
 import {
@@ -9,6 +8,7 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
+import { sendPhoneCode } from "../../services/auth";
 
 const normalizePhoneNumber = (rawPhone: string) => {
   const cleaned = rawPhone.trim().replace(/[\s()-]/g, "");
@@ -53,7 +53,7 @@ export default function PhoneLogin({
 
     try {
       setBusy(true);
-      setConfirmation(await signInWithPhoneNumber(getAuth(), normalizedPhone));
+      setConfirmation(await sendPhoneCode(normalizedPhone));
       Alert.alert(
         "OTP Sent",
         "A verification code has been sent to your phone.",
@@ -91,7 +91,7 @@ export default function PhoneLogin({
   const isDisabled = disabled || loading;
 
   return (
-    <View>
+    <View nativeID="recaptcha-container">
       {!confirmation ? (
         <>
           <TextInput

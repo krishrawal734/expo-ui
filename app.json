@@ -30,6 +30,15 @@
     },
 
     "plugins": [
+
+ [
+        "expo-notifications",
+        {
+          "color": "#ffffff"
+        }
+      ],
+
+
       [
         "expo-file-system",
         {

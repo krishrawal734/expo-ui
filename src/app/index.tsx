@@ -23,50 +23,26 @@ import BillingItem from "../components/subscription/BillingItem";
 import Header from "../components/subscription/Header";
 import PlanCard from "../components/subscription/PlanCard";
 import TrialCard from "../components/subscription/TrialCard";
+import { setupWebNotifications } from "../services/webNotifications";
 
 export default function IndexScreen() {
-  /*
-   * ----------------------------------------------------
-   * FIREBASE AUTHENTICATION
-   * ----------------------------------------------------
-   */
-
   const { user, loading, logout } = useAuth();
   const [loggingOut, setLoggingOut] = useState(false);
-
-  /*
-   * ----------------------------------------------------
-   * CUSTOM FONTS
-   * ----------------------------------------------------
-   */
+  const [notifStatus, setNotifStatus] = useState<string>("Initializing...");
 
   const [fontsLoaded] = useFonts({
     "BetaniaPatmos-Regular": require("../../assets/fonts/BetaniaPatmos-Regular.ttf"),
-
     "CaacupeOne-Regular": require("../../assets/fonts/CaacupeOne-Regular.ttf"),
-
     CarterOne: require("../../assets/fonts/CarterOne-Regular.ttf"),
-
     FasterOne: require("../../assets/fonts/FasterOne-Regular.ttf"),
   });
-
-  /*
-   * ----------------------------------------------------
-   * AUTH LOADING
-   *
-   * Firebase is checking whether the user is already
-   * logged in.
-   * ----------------------------------------------------
-   */
 
   if (loading) {
     return (
       <SafeAreaView className="flex-1 bg-slate-50">
         <StatusBar style="dark" />
-
         <View className="flex-1 items-center justify-center">
           <ActivityIndicator size="large" color="#2563EB" />
-
           <Text className="mt-4 text-base text-slate-600">
             Checking authentication...
           </Text>
@@ -75,34 +51,16 @@ export default function IndexScreen() {
     );
   }
 
-  /*
-   * ----------------------------------------------------
-   * USER NOT LOGGED IN
-   *
-   * Send the user to the Firebase login screen.
-   * ----------------------------------------------------
-   */
-
   if (!user) {
     return <Redirect href="/(auth)/login" />;
   }
-
-  /*
-   * ----------------------------------------------------
-   * FONT LOADING
-   *
-   * Only show the main UI after fonts are loaded.
-   * ----------------------------------------------------
-   */
 
   if (!fontsLoaded) {
     return (
       <SafeAreaView className="flex-1 bg-slate-50">
         <StatusBar style="dark" />
-
         <View className="flex-1 items-center justify-center">
           <ActivityIndicator size="large" color="#2563EB" />
-
           <Text className="mt-4 text-base text-slate-600">Loading...</Text>
         </View>
       </SafeAreaView>
@@ -120,13 +78,15 @@ export default function IndexScreen() {
     }
   };
 
-  /*
-   * ----------------------------------------------------
-   * AUTHENTICATED USER
-   *
-   * Your original subscription UI is displayed here.
-   * ----------------------------------------------------
-   */
+  const handleEnableNotifications = async () => {
+    setNotifStatus("Checking permissions...");
+    const cleanup = await setupWebNotifications();
+    if (cleanup || ("Notification" in window && Notification.permission === "granted")) {
+      setNotifStatus("Active (Check Browser Console for FCM Token)");
+    } else {
+      setNotifStatus("Permission denied or unsupported");
+    }
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-slate-50">
@@ -143,6 +103,7 @@ export default function IndexScreen() {
             paddingBottom: 20,
           }}
         >
+         
           {/* Free Trial */}
           <TrialCard />
 
@@ -166,11 +127,8 @@ export default function IndexScreen() {
               }}
             >
               <PlanCard title="Monthly" price="499" />
-
               <PlanCard title="Yearly" price="4999" />
-
               <PlanCard title="Premium" price="7999" />
-
               <PlanCard title="Ultra Premium" price="9999" />
             </ScrollView>
           </View>
@@ -183,21 +141,13 @@ export default function IndexScreen() {
 
             <View className="overflow-hidden rounded-lg border border-slate-200 bg-white">
               <BillingItem date="Oct 12, 2023" status="Paid" />
-
               <BillingItem date="Sep 12, 2023" status="Paid" />
-
               <BillingItem date="Aug 12, 2023" status="Failed" />
-
               <BillingItem date="July 12, 2023" status="Paid" />
-
               <BillingItem date="June 12, 2023" status="Failed" />
-
               <BillingItem date="May 12, 2023" status="Failed" />
-
               <BillingItem date="April 12, 2023" status="Paid" />
-
               <BillingItem date="March 12, 2023" status="Paid" />
-
               <BillingItem date="February 12, 2023" status="Failed" />
             </View>
           </View>

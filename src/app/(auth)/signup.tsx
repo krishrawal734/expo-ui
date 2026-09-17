@@ -11,10 +11,7 @@ import {
 
 import { Link, router } from "expo-router";
 
-import {
-  createUserWithEmailAndPassword,
-  getAuth,
-} from "@react-native-firebase/auth";
+import { signUpWithEmail } from "../../services/auth";
 
 export default function SignupScreen() {
   const [email, setEmail] = useState("");
@@ -42,7 +39,7 @@ export default function SignupScreen() {
     try {
       setLoading(true);
 
-      await createUserWithEmailAndPassword(getAuth(), email.trim(), password);
+      await signUpWithEmail(email.trim(), password);
 
       Alert.alert("Success", "Account created successfully.");
 

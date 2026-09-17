@@ -1,6 +1,13 @@
 import { Stack } from "expo-router";
+import { useEffect } from "react";
 
-export default function AppLayout() {
+import { setupWebNotifications } from "../../services/webNotifications";
+
+export default function RootLayout() {
+  useEffect(() => {
+    setupWebNotifications();
+  }, []);
+
   return (
     <Stack
       screenOptions={{
