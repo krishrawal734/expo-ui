@@ -1,3 +1,4 @@
+import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
 import { Platform } from "react-native";
 
@@ -21,7 +22,7 @@ if (Platform.OS !== "web") {
 export { setupWebNotifications };
 
 export async function registerNotificationListener(
-  onNotification: NotificationCallback
+  onNotification: NotificationCallback,
 ): Promise<(() => void) | undefined> {
   if (Platform.OS === "web") {
     return setupWebNotifications(onNotification);
@@ -29,6 +30,17 @@ export async function registerNotificationListener(
 
   // Native Platform setup (Android / iOS)
   try {
+    if (Platform.OS === "android") {
+      await Notifications.setNotificationChannelAsync("default", {
+        name: "General notifications",
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        sound: "default",
+        enableVibrate: true,
+        showBadge: true,
+      });
+    }
+
     const { status: existingStatus } =
       await Notifications.getPermissionsAsync();
     let finalStatus = existingStatus;
@@ -44,7 +56,14 @@ export async function registerNotificationListener(
     }
 
     try {
-      const expoToken = (await Notifications.getExpoPushTokenAsync()).data;
+      const projectId =
+        Constants.expoConfig?.extra?.eas?.projectId ??
+        Constants.easConfig?.projectId;
+      const expoToken = (
+        await Notifications.getExpoPushTokenAsync(
+          projectId ? { projectId } : undefined,
+        )
+      ).data;
       console.log("==================================================");
       console.log("[Native Push] EXPO PUSH TOKEN:", expoToken);
       console.log("==================================================");
@@ -64,25 +83,14 @@ export async function registerNotificationListener(
     const receivedSubscription = Notifications.addNotificationReceivedListener(
       (notification) => {
         console.log("[Native Push] Notification received:", notification);
-        const title =
-          notification.request.content.title || "New Notification";
+        const title = notification.request.content.title || "New Notification";
         const body = notification.request.content.body || "";
         onNotification(title, body);
-      }
+      },
     );
-
-    const responseSubscription =
-      Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log("[Native Push] Notification tapped:", response);
-        const title =
-          response.notification.request.content.title || "New Notification";
-        const body = response.notification.request.content.body || "";
-        onNotification(title, body);
-      });
 
     return () => {
       receivedSubscription.remove();
-      responseSubscription.remove();
     };
   } catch (error) {
     console.error("[Native Push] Setup error:", error);

@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 import { useEffect, useState } from "react";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import NotificationPopup from "../components/NotificationPopup";
@@ -14,7 +14,7 @@ type NotificationItem = {
 
 export default function RootLayout() {
   const [notification, setNotification] = useState<NotificationItem | null>(
-    null
+    null,
   );
 
   useEffect(() => {
@@ -23,8 +23,10 @@ export default function RootLayout() {
     let cleanupFn: (() => void) | undefined;
 
     registerNotificationListener((title, body) => {
-      console.log("[RootLayout] Popup Notification Triggered:", title, body);
-      setNotification({ title, body });
+      if (Platform.OS === "web") {
+        console.log("[RootLayout] Popup Notification Triggered:", title, body);
+        setNotification({ title, body });
+      }
     }).then((unsubscribe) => {
       cleanupFn = unsubscribe;
     });
@@ -46,7 +48,7 @@ export default function RootLayout() {
             <Stack.Screen name="(app)" />
           </Stack>
 
-          {notification && (
+          {Platform.OS === "web" && notification && (
             <NotificationPopup
               title={notification.title}
               body={notification.body}

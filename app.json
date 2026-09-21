@@ -30,14 +30,13 @@
     },
 
     "plugins": [
-
- [
+      [
         "expo-notifications",
         {
-          "color": "#ffffff"
+          "color": "#ffffff",
+          "defaultChannel": "default"
         }
       ],
-
 
       [
         "expo-file-system",
